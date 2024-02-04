@@ -6,8 +6,6 @@ TARGET = smart_calc
 TARGET_TEST = test_exec
 SRC_FILES = calc_algorithm/*.c visual_functions/*.c smart_calc.c
 TEST_FILES = calc_algorithm/*.c test.c
-DOC_FILES = documentation.tex
-LATEX = latex
 
 all: $(TARGET)
 	sudo apt update
@@ -48,26 +46,7 @@ clean: uninstall clean_cov
 clean_cov:
 	rm -f *.gcno *.gcda *.info *.gcov $(TARGET_TEST)
 
-DVI_FILES = $(DOC_FILES:.tex=.dvi)
-
-dvi: $(DVI_FILES)
-
-%.dvi: %.tex
-	$(LATEX) $<
-
-$(DVI_FILES): $(DOC_FILES)
-
 dist: clean
 	tar -czvf smart_calc.tar.gz *
-
-check_linters:
-	cp ../materials/linters/.clang-format ./.clang-format
-	clang-format -n *.c calc_algorithm/* visual_functions/*
-	rm -rf .clang-format
-
-fix_linters:
-	cp ../materials/linters/.clang-format ./.clang-format
-	clang-format -i *.c calc_algorithm/* visual_functions/*
-	rm -rf .clang-format
 
 .PHONY: all install uninstall clean dvi dist
